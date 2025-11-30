@@ -12,6 +12,8 @@ class Transaction(models.Model):
     description = models.TextField(blank=True, null=True)
     user = models.ForeignKey(CustomUser, related_name='transactions', on_delete=models.CASCADE)
 
+  
+
 class UsersProfile(models.Model):
     user = models.OneToOneField(CustomUser, related_name='profile', on_delete=models.CASCADE)
     bio = models.TextField(blank=True, null=True)
