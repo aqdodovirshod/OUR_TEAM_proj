@@ -3,7 +3,7 @@ from .views import TransactionListCreateView ,TransactionDetailView , ProfileVie
 urlpatterns = [
     path('transactions/', TransactionListCreateView.as_view()),
     path('transactions/<int:pk>/', TransactionDetailView.as_view()),
-    path('profile/', ProfileView.as_view(), ),
-    path('balance/', BalanceView.as_view(), ),
+    path('profile/', ProfileView.as_view()),
+    path('balance/', BalanceView.as_view()),
     path('transactions/filter/', FilterTransactionView.as_view()),
 ]
