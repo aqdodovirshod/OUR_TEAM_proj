@@ -12,6 +12,22 @@ class Transaction(models.Model):
     description = models.TextField(blank=True, null=True)
     user = models.ForeignKey(CustomUser, related_name='transactions', on_delete=models.CASCADE)
 
+    def save(self, *args, **kwargs):
+        balance = Balance.objects.filter(user=self.user).first()
+        if not balance:
+            balance = Balance.objects.create(user=self.user, amount=0)
+        if self.transaction_type == 'EXPENSE':
+            if balance.amount >= self.amount:
+                balance.amount -= self.amount
+        else:
+            balance.amount += self.amount
+        balance.save()
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.transaction_type} - {self.amount}"
+
+
 class UsersProfile(models.Model):
     user = models.OneToOneField(CustomUser, related_name='profile', on_delete=models.CASCADE)
     bio = models.TextField(blank=True, null=True)
