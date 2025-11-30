@@ -6,7 +6,7 @@ from .models import Transaction, UsersProfile, Balance
 class TransactionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Transaction
-        fields = ['id', 'transaction_type', 'amount', 'transaction_date', 'description']
+        fields = "__all__"
 
     def create(self, validated_data):
         user = self.context['request'].user
@@ -17,10 +17,10 @@ class TransactionSerializer(serializers.ModelSerializer):
 class UsersProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = UsersProfile
-        fields = ['id', 'bio', 'phone_number', 'address']
+        fields = "__all__"
 
 class BalanceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Balance
-        fields = ['id', 'amount']
+        fields = '__all__'
 
