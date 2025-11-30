@@ -1,10 +1,11 @@
-from django.shortcuts import render
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
-from rest_framework import status ,generics
 from .models import Transaction, UsersProfile, Balance
-from .serializers import TransactionSerializer,UsersProfileSerializer ,BalanceSerializer
+from .serializers import (
+    TransactionSerializer,
+    UsersProfileSerializer,
+    BalanceSerializer
+)
 
 class TransactionListCreateView(generics.ListCreateAPIView):
     serializer_class = TransactionSerializer
@@ -20,7 +21,6 @@ class TransactionDetailView(generics.RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
         return Transaction.objects.filter(user=self.request.user)
-    
 
 
 class ProfileView(generics.RetrieveUpdateAPIView):
@@ -46,7 +46,7 @@ class FilterTransactionView(generics.ListAPIView):
 
     def get_queryset(self):
         qs = Transaction.objects.filter(user=self.request.user)
-        t_type = self.request.data.get('type')
+        t_type = self.request.query_params.get('type')
         if t_type:
             qs = qs.filter(transaction_type=t_type)
         return qs
